@@ -7,11 +7,21 @@ import java.io.PrintWriter;
 
 @WebServlet(name = "HelloWorldServlet", urlPatterns = {"/hello"})
 public class HelloWorldServlet extends HttpServlet {
+    private int counter = 0;
+
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException {
         String name = req.getParameter("name");
+        String resetCounter = req.getParameter("reset");
+        counter += 1;
 
         res.setContentType("text/html");
         PrintWriter out = res.getWriter();
+
+        if (resetCounter == null) {
+            String dummy = "dummy";
+        } else if (resetCounter.equals("true")) {
+            counter = 0;
+        }
 
         if (name == null) {
             out.println("<h1>Hello World!</h1>");
@@ -20,5 +30,7 @@ public class HelloWorldServlet extends HttpServlet {
         } else {
             out.println("<h1>Hello, " + name + "!</h1>");
         }
+
+        out.println("This page has been visited: " + counter + " times");
     }
 }
