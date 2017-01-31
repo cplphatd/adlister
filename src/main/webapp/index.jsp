@@ -3,6 +3,7 @@
 <html>
     <head>
         <title><%= "Home Page" %></title>
+        <%@include file="partials/stylesheet.jsp"%>
     </head>
     <body>
         <%@include file="partials/navbar.jsp"%>

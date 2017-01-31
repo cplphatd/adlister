@@ -8,12 +8,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <ul>
     <li>
-        <a>Home</a>
+        <a href="/">Home</a>
     </li>
     <li>
-        <a>Login</a>
+        <a href="/login">Login</a>
     </li>
     <li>
-        <a>Profile</a>
+        <a href="/profile">Profile</a>
     </li>
 </ul>
