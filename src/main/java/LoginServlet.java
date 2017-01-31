@@ -22,7 +22,7 @@ public class LoginServlet extends HttpServlet {
         String password = request.getParameter("password");
 
         if (username.equalsIgnoreCase(correctUsername) && password.equalsIgnoreCase(correctPassword)) {
-            response.sendRedirect("/profile");
+            response.sendRedirect("/profile?name=" + username);
         } else {
             response.sendRedirect("/login");
         }

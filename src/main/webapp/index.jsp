@@ -2,8 +2,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
     <head>
-        <title><%= "Home Page" %></title>
-        <%@include file="partials/stylesheet.jsp"%>
+        <jsp:include page="partials/head.jsp">
+            <jsp:param name="title" value="Home Page"></jsp:param>
+        </jsp:include>
     </head>
     <body>
         <%@include file="partials/navbar.jsp"%>

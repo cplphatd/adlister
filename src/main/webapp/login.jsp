@@ -8,8 +8,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
     <head>
-        <title>Login</title>
-        <%@include file="partials/stylesheet.jsp"%>
+        <jsp:include page="partials/head.jsp">
+            <jsp:param name="title" value="Login"></jsp:param>
+        </jsp:include>
     </head>
     <body>
         <%@include file="partials/navbar.jsp"%>
