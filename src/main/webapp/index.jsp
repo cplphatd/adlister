@@ -7,13 +7,15 @@
         </jsp:include>
     </head>
     <body>
-        <%@include file="partials/navbar.jsp"%>
-        <c:if test="true">
-            <h1>Variable names should be very descriptive</h1>
-        </c:if>
-        <c:if test="false">
-            <h1>single letter variable names are good</h1>
-        </c:if>
+        <div class="container">
+            <%@include file="partials/navbar.jsp"%>
+            <c:if test="true">
+                <h1>Variable names should be very descriptive</h1>
+            </c:if>
+            <c:if test="false">
+                <h1>single letter variable names are good</h1>
+            </c:if>
+        </div>
         <%@include file="partials/footer.jsp"%>
     </body>
 </html>

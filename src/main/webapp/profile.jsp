@@ -22,7 +22,9 @@
     </head>
     <body>
         <%@include file="partials/navbar.jsp"%>
-        <h1><%= message %></h1>
+        <div class="container">
+            <h1><%= message %></h1>
+        </div>
         <%@include file="partials/footer.jsp"%>
     </body>
 </html>

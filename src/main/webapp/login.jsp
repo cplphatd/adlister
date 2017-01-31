@@ -15,6 +15,7 @@
     <body>
         <%@include file="partials/navbar.jsp"%>
         <div class="container">
+            <h1>Please login:</h1>
             <form method="post" action="/login">
                 <label>Username: </label>
                 <input id="username" name="username" type="text">
