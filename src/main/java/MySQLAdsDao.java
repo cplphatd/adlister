@@ -1,42 +1,30 @@
+import com.mysql.cj.api.mysqla.result.Resultset;
+
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by David on 2/1/17.
  */
 public class MySQLAdsDao implements Ads {
-    Connection connection = DriverManager.getConnection(
+    private Connection connection = DriverManager.getConnection(
             Config.getUrl(),
             Config.getUsername(),
             Config.getPassword()
     );
 
-    Statement statement = connection.createStatement();
-    ResultSet resultSet;
-
-    private List<Ad> ads;
-    private Ad ad;
+    private Statement statement = connection.createStatement();
+    private ResultSet resultSet;
 
     public MySQLAdsDao() throws SQLException {
     }
 
     @Override
     public List<Ad> all() throws SQLException {
-        resultSet = statement.executeQuery("select * from adlister_db.ads");
+        resultSet = statement.executeQuery("select * from ads");
 
-        int i = 0;
-        while (resultSet.next()) {
-            ad = new Ad(resultSet.getInt("id"),
-                    resultSet.getInt("user_id"),
-                    resultSet.getString("title"),
-                    resultSet.getString("description")
-            );
-
-            ads.add(i, ad);
-            i += 1;
-        }
-
-        return ads;
+        return createAdsFromResults(resultSet);
     }
 
     @Override
@@ -55,5 +43,24 @@ public class MySQLAdsDao implements Ads {
             newAdId = resultSet.getLong(1);
         }
         return newAdId;
+    }
+
+    private Ad extractsAds (ResultSet resultSet) throws SQLException {
+        Long newID = (long) resultSet.getInt("id");
+        Long newUserID = (long) resultSet.getInt("user_id");
+        String newTitle = resultSet.getString("title");
+        String newDescription = resultSet.getString("description");
+
+        return new Ad (newID, newUserID, newTitle, newDescription);
+    }
+
+    private List<Ad> createAdsFromResults (ResultSet resultSet) throws SQLException {
+        List<Ad> ads = new ArrayList<>();
+
+        while (resultSet.next()) {
+            ads.add(extractsAds(resultSet));
+        }
+
+        return ads;
     }
 }
