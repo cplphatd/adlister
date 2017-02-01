@@ -12,6 +12,7 @@ import java.util.List;
 @WebServlet(name = "AdsServlet", urlPatterns = "/ads")
 public class AdsServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         List<Ad> ads = DaoFactory.getAdsDao().all();
         request.setAttribute("ads", ads);
 
