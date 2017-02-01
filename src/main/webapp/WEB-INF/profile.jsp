@@ -11,6 +11,5 @@
     <div class="container">
         <h1>Hello, <%=session.getAttribute("user")%>!</h1>
     </div>
-
 </body>
 </html>
