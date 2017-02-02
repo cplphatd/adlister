@@ -1,5 +1,3 @@
-import com.mysql.cj.api.mysqla.result.Resultset;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,46 +6,61 @@ import java.util.List;
  * Created by David on 2/1/17.
  */
 public class MySQLAdsDao implements Ads {
-    private Connection connection = DriverManager.getConnection(
-            Config.getUrl(),
-            Config.getUsername(),
-            Config.getPassword()
-    );
+    private Connection connection = null;
 
-    private Statement statement = connection.createStatement();
-    private ResultSet resultSet;
-
-    public MySQLAdsDao() throws SQLException {
-    }
-
-    @Override
-    public List<Ad> all() throws SQLException {
-        resultSet = statement.executeQuery("select * from ads");
-
-        return createAdsFromResults(resultSet);
-    }
-
-    @Override
-    public Long insert(Ad ad) throws SQLException {
-        String insertCommand = "insert into ads(user_id, title, description)" + " values ("
-                + ad.getUserId() + ", "
-                + ad.getTitle() + ", "
-                + ad.getDescription() + ")";
-
-        statement.executeUpdate(insertCommand, statement.RETURN_GENERATED_KEYS);
-
-        resultSet = statement.getGeneratedKeys();
-
-        Long newAdId = null;
-        if(resultSet.next()) {
-            newAdId = resultSet.getLong(1);
+    public MySQLAdsDao(Config config) {
+        try {
+            connection = DriverManager.getConnection(
+                   config.getUrl(),
+                   config.getUsername(),
+                   config.getPassword()
+           );
+        } catch (SQLException e) {
+            throw new RuntimeException("Error connecting to the database!", e);
         }
-        return newAdId;
+    }
+
+    @Override
+    public List<Ad> all() {
+        Statement statement;
+        try {
+            statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("select * from ads");
+            return createAdsFromResults(resultSet);
+        } catch (SQLException e) {
+            throw new RuntimeException("Error retrieving all ads.", e);
+        }
+    }
+
+    @Override
+    public Long insert(Ad ad) {
+//        Statement statement = null;
+//        try {
+//            statement = connection.createStatement();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//
+//        String insertCommand = "insert into ads(user_id, title, description)" + " values ("
+//                + ad.getUserId() + ", "
+//                + ad.getTitle() + ", "
+//                + ad.getDescription() + ")";
+//
+//        statement.executeUpdate(insertCommand, statement.RETURN_GENERATED_KEYS);
+//
+//        ResultSet resultSet = statement.getGeneratedKeys();
+//
+//        Long newAdId = null;
+//        if(resultSet.next()) {
+//            newAdId = resultSet.getLong(1);
+//        }
+//        return newAdId;
+        return  null;
     }
 
     private Ad extractsAds (ResultSet resultSet) throws SQLException {
-        Long newID = (long) resultSet.getInt("id");
-        Long newUserID = (long) resultSet.getInt("user_id");
+        Long newID = resultSet.getLong("id");
+        Long newUserID = resultSet.getLong("user_id");
         String newTitle = resultSet.getString("title");
         String newDescription = resultSet.getString("description");
 

@@ -2,19 +2,19 @@
  * Created by David on 2/1/17.
  */
 public class Config {
-    private static String url = "jdbc:mysql://localhost:3306/adlister_db";
-    private static String username = "adlister_admin";
-    private static String password = "password";
+    private String url = "jdbc:mysql://localhost:3306/adlister_db";
+    private String username = "adlister_admin";
+    private String password = "password";
 
-    public static String getUrl() {
+    public String getUrl() {
         return url;
     }
 
-    public static String getUsername() {
+    public String getUsername() {
         return username;
     }
 
-    public static String getPassword() {
+    public String getPassword() {
         return password;
     }
 }
