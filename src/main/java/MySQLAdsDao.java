@@ -22,6 +22,7 @@ public class MySQLAdsDao implements Ads {
             throw new RuntimeException("Error connecting to the database!", e);
         }
     }
+
     @Override
     public List<Ad> all() {
         Statement statement;
