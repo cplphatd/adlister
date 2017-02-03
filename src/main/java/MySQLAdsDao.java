@@ -8,16 +8,19 @@ import java.util.List;
  * Created by David on 2/1/17.
  */
 public class MySQLAdsDao implements Ads {
-    private Connection connection;
+    private Statement statement;
 
     public MySQLAdsDao () {
         try {
             DriverManager.registerDriver(new Driver());
-            connection = DriverManager.getConnection(
+            Connection connection = DriverManager.getConnection(
                     Config.url,
                     Config.user,
                     Config.password
             );
+
+            this.statement = connection.createStatement();
+
         } catch (SQLException e) {
             throw new RuntimeException("Error connecting to the database!", e);
         }
@@ -27,7 +30,6 @@ public class MySQLAdsDao implements Ads {
     public List<Ad> all() {
 
         try {
-            Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("select * from ads");
             return createAdsFromResults(resultSet);
         } catch (SQLException e) {
@@ -38,13 +40,22 @@ public class MySQLAdsDao implements Ads {
     @Override
     public Long insert(Ad ad) {
         try {
-            Statement statement = connection.createStatement();
             statement.executeUpdate(createInsertString(ad), Statement.RETURN_GENERATED_KEYS);
             ResultSet resultSet = statement.getGeneratedKeys();
             resultSet.next();
             return resultSet.getLong(1);
         } catch (SQLException e) {
             throw new RuntimeException("Error creating a new ad.", e);
+        }
+    }
+
+    @Override
+    public List<Ad> searchAdsByID(Long idNumber) {
+        try {
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM ads WHERE id = " + idNumber);
+            return createAdsFromResults(resultSet);
+        } catch (SQLException e) {
+            throw new RuntimeException("Error @ searchAdsByID", e);
         }
     }
 
