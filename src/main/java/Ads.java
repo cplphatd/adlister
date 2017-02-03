@@ -9,4 +9,7 @@ public interface Ads {
 
     //Find single ad by ID
     List<Ad> searchAdsByID (Long idNumber);
+
+    //Find ads by title
+    List<Ad> searchAdsByTitle (String title);
 }

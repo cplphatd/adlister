@@ -12,9 +12,16 @@ import java.util.List;
 @WebServlet(name = "SearchServlet", urlPatterns = "/ads/search")
 public class SearchServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Long idNumber = Long.parseLong(request.getParameter("id"));
+        List<Ad> ads;
+        if (request.getParameter("title") == null) {
+            Long idNumber = Long.parseLong(request.getParameter("id"));
 
-        List<Ad> ads = DaoFactory.getAdsDao().searchAdsByID(idNumber);
+            ads = DaoFactory.getAdsDao().searchAdsByID(idNumber);
+        } else {
+            String title = request.getParameter("title");
+
+            ads = DaoFactory.getAdsDao().searchAdsByTitle(title);
+        }
 
         request.setAttribute("ads", ads);
         request.getRequestDispatcher("/ads/results").forward(request, response);
