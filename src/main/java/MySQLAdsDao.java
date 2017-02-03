@@ -8,7 +8,7 @@ import java.util.List;
  * Created by David on 2/1/17.
  */
 public class MySQLAdsDao implements Ads {
-    private Connection connection = null;
+    private Connection connection;
 
     public MySQLAdsDao () {
         try {
@@ -25,10 +25,9 @@ public class MySQLAdsDao implements Ads {
 
     @Override
     public List<Ad> all() {
-        Statement statement;
 
         try {
-            statement = connection.createStatement();
+            Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("select * from ads");
             return createAdsFromResults(resultSet);
         } catch (SQLException e) {
