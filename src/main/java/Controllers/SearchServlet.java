@@ -1,3 +1,8 @@
+package Controllers;
+
+import Models.Ad;
+import Models.DaoFactory;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -9,11 +14,11 @@ import java.util.List;
 /**
  * Created by David on 2/2/17.
  */
-@WebServlet(name = "SearchServlet", urlPatterns = "/ads/search")
+@WebServlet(name = "Controllers.SearchServlet", urlPatterns = "/ads/search")
 public class SearchServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<Ad> ads;
-        if (request.getParameter("title") == null) {
+        if (request.getParameter("title").isEmpty()) {
             Long idNumber = Long.parseLong(request.getParameter("id"));
 
             ads = DaoFactory.getAdsDao().searchAdsByID(idNumber);

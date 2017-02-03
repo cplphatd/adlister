@@ -1,3 +1,5 @@
+package Models;
+
 import com.mysql.cj.jdbc.Driver;
 
 import java.sql.*;
