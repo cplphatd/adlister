@@ -13,6 +13,7 @@
             <jsp:param name="title" value="Search Results" />
         </jsp:include></head></head>
     <body>
+        <jsp:include page="/WEB-INF/partials/navbar.jsp" />
         <h1>Search results:</h1>
         <c:forEach var="ad" items="${ads}">
             <div class="col-md-6">

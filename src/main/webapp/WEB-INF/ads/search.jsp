@@ -13,17 +13,18 @@
             <jsp:param name="title" value="Search Ads" />
         </jsp:include></head>
     <body>
+        <jsp:include page="/WEB-INF/partials/navbar.jsp" />
         <div class="container">
-            <h1>Search the Ads by:</h1>
-            <form action="/ads/search" method="post">
-                <div class="form-group">
-                    <label for="id">ID #</label>
-                    <input id="id" name="id" class="form-control" type="text">
-                    <label for="title">Title</label>
-                    <input id="title" name="title" class="form-control" type="text">
-                </div>
-                <input type="submit" class="btn btn-block btn-primary">
-            </form>
-        </div>
+                <h1>Search the Ads by:</h1>
+                <form action="/ads/search" method="post">
+                    <div class="form-group">
+                        <label for="id">ID #</label>
+                        <input id="id" name="id" class="form-control" type="text">
+                        <label for="title">Title</label>
+                        <input id="title" name="title" class="form-control" type="text">
+                    </div>
+                    <input type="submit" class="btn btn-block btn-primary">
+                </form>
+            </div>
     </body>
 </html>

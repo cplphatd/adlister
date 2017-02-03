@@ -7,11 +7,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by David on 2/1/17.
+ * <p>The <code>MySQLAdsDao</code> is used to connect to a MySQL database and run queries that correspond to the
+ * methods defined by the web application.</p>
+ *
+ * @author David Ryan Alviola
+ * @since  3 February 2017
  */
 public class MySQLAdsDao implements Ads {
     private Statement statement;
 
+    /**
+     * <p>Constructor for the <code>MySQLAdsDao</code> class. The <code>Statement</code> object is assigned in the
+     * constructor so that the same object can be used to run queries throughout the class without having to create
+     * new <code>Statement</code> objects within each method.</p>
+     *
+     * @throws SQLException
+     */
     public MySQLAdsDao () {
         try {
             DriverManager.registerDriver(new Driver());
@@ -24,7 +35,7 @@ public class MySQLAdsDao implements Ads {
             this.statement = connection.createStatement();
 
         } catch (SQLException e) {
-            throw new RuntimeException("Error connecting to the database!", e);
+            throw new RuntimeException("Error @ MySQLAdsDao constructor.", e);
         }
     }
 
@@ -35,7 +46,7 @@ public class MySQLAdsDao implements Ads {
             ResultSet resultSet = statement.executeQuery("select * from ads");
             return createAdsFromResults(resultSet);
         } catch (SQLException e) {
-            throw new RuntimeException("Error retrieving all ads.", e);
+            throw new RuntimeException("Error @ MySQLAdsDao.all().", e);
         }
     }
 
@@ -47,7 +58,7 @@ public class MySQLAdsDao implements Ads {
             resultSet.next();
             return resultSet.getLong(1);
         } catch (SQLException e) {
-            throw new RuntimeException("Error creating a new ad.", e);
+            throw new RuntimeException("Error @ MySQLAdsDao.insert.", e);
         }
     }
 
