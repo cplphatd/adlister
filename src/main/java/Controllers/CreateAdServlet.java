@@ -3,6 +3,7 @@ package Controllers;
 import Models.Ad;
 import Models.DataAccessLayer.Ads;
 import Models.DataAccessLayer.DaoFactory;
+import Models.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,13 +22,18 @@ public class CreateAdServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Ads ads = DaoFactory.getAdsDao();
 
+        User currentUser = (User) request.getSession().getAttribute("user");
+
         Ad ad = new Ad(
-            1, // for now we'll hardcode the user id
+            currentUser.getId(),
             request.getParameter("title"),
             request.getParameter("description")
         );
 
-        ads.insert(ad);
-        response.sendRedirect("/ads");
+        if (ads.insert(ad) != null) {
+            response.sendRedirect("/ads");
+        } else {
+            response.sendRedirect("/create");
+        }
     }
 }
