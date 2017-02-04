@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Created by David on 2/2/17.
  */
-@WebServlet(name = "Controllers.SearchServlet", urlPatterns = "/ads/search")
+@WebServlet(name = "Controllers.SearchServlet", urlPatterns = "/search")
 public class SearchServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<Ad> ads;
@@ -29,7 +29,7 @@ public class SearchServlet extends HttpServlet {
         }
 
         request.setAttribute("ads", ads);
-        request.getRequestDispatcher("/ads/results").forward(request, response);
+        request.getRequestDispatcher("/results").forward(request, response);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

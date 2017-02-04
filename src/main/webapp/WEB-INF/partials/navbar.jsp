@@ -5,8 +5,10 @@
         <div class="navbar-header">
             <a class="navbar-brand" href="/ads">Adlister</a>
             <ul class="nav navbar-nav navbar-left">
-                <li><a href="/ads/create">Create</a></li>
-                <li><a href="/ads/search">Search</a></li>
+                <li><a href="/search">Search</a></li>
+                <c:if test="${sessionScope.user != null}">
+                    <li><a href="/create">Create</a></li>
+                </c:if>
             </ul>
         </div>
         <ul class="nav navbar-nav navbar-right">

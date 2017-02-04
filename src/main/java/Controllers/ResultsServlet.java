@@ -10,7 +10,7 @@ import java.io.IOException;
 /**
  * Created by David on 2/2/17.
  */
-@WebServlet(name = "Controllers.ResultsServlet", urlPatterns = "/ads/results")
+@WebServlet(name = "Controllers.ResultsServlet", urlPatterns = "/results")
 public class ResultsServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException,
             IOException {

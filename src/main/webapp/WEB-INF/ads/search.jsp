@@ -16,7 +16,7 @@
         <jsp:include page="/WEB-INF/partials/navbar.jsp" />
         <div class="container">
                 <h1>Search the Ads by:</h1>
-                <form action="/ads/search" method="post">
+                <form action="/search" method="post">
                     <div class="form-group">
                         <label for="id">ID #</label>
                         <input id="id" name="id" class="form-control" type="text">

@@ -16,7 +16,7 @@ import java.util.List;
  * @since  3 February 2017
  */
 public class MySQLAdsDao implements Ads {
-    private Statement statement;
+    private Connection connection;
 
     /**
      * <p>Constructor for the <code>MySQLAdsDao</code> class. The <code>Statement</code> object is assigned in the
@@ -26,16 +26,14 @@ public class MySQLAdsDao implements Ads {
      * @throws SQLException
      */
     public MySQLAdsDao () {
+
         try {
             DriverManager.registerDriver(new Driver());
-            Connection connection = DriverManager.getConnection(
+            connection = DriverManager.getConnection(
                     Config.url,
                     Config.user,
                     Config.password
             );
-
-            this.statement = connection.createStatement();
-
         } catch (SQLException e) {
             throw new RuntimeException("Error @ MySQLAdsDao constructor.", e);
         }
@@ -52,6 +50,7 @@ public class MySQLAdsDao implements Ads {
     public List<Ad> all() {
 
         try {
+            Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("select * from ads");
             return createAdsFromResults(resultSet);
         } catch (SQLException e) {
@@ -67,11 +66,23 @@ public class MySQLAdsDao implements Ads {
      */
     @Override
     public Long insert(Ad ad) {
+        String sql = "INSERT INTO ads(user_id, title, description) VALUES (?, ?, ?)";
+
         try {
-            statement.executeUpdate(createInsertString(ad), Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement statement = connection.prepareStatement(sql,
+                    Statement.RETURN_GENERATED_KEYS);
+            statement.setLong(1, ad.getUserId());
+            statement.setString(2, ad.getTitle());
+            statement.setString(3, ad.getDescription());
+
+            statement.executeUpdate();
             ResultSet resultSet = statement.getGeneratedKeys();
-            resultSet.next();
-            return resultSet.getLong(1);
+
+            if (resultSet.next()){
+                return resultSet.getLong(1);
+            } else {
+                return null;
+            }
         } catch (SQLException e) {
             throw new RuntimeException("Error @ MySQLAdsDao.insert.", e);
         }
@@ -85,8 +96,13 @@ public class MySQLAdsDao implements Ads {
      */
     @Override
     public List<Ad> searchAdsByID(Long idNumber) {
+        String sql = "SELECT * FROM ads WHERE id = ?";
+
         try {
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM ads WHERE id = " + idNumber);
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setLong(1, idNumber);
+
+            ResultSet resultSet = statement.executeQuery();
             return createAdsFromResults(resultSet);
         } catch (SQLException e) {
             throw new RuntimeException("Error @ searchAdsByID", e);
@@ -101,8 +117,13 @@ public class MySQLAdsDao implements Ads {
      */
     @Override
     public List<Ad> searchAdsByTitle(String title) {
+        String sql = "SELECT * FROM ads WHERE title LIKE ?";
+
         try {
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM ads WHERE title LIKE '%" + title + "%'");
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, "%" + title + "%");
+
+            ResultSet resultSet = statement.executeQuery();
             return createAdsFromResults(resultSet);
         } catch (SQLException e) {
             throw new RuntimeException("Error @ searchAdsByTitle", e);
@@ -110,6 +131,7 @@ public class MySQLAdsDao implements Ads {
     }
 
     private Ad extractAd(ResultSet resultSet) throws SQLException {
+
         return new Ad(
                 resultSet.getLong("id"),
                 resultSet.getLong("user_id"),
@@ -120,16 +142,10 @@ public class MySQLAdsDao implements Ads {
 
     private List<Ad> createAdsFromResults(ResultSet resultSet) throws SQLException {
         List<Ad> ads = new ArrayList<>();
+
         while (resultSet.next()) {
             ads.add(extractAd(resultSet));
         }
         return ads;
-    }
-
-    private String createInsertString(Ad ad) {
-        return "INSERT INTO ads(user_id, title, description) VALUES "
-                + "(" + ad.getUserId() + ", "
-                + "'" + ad.getTitle() +"', "
-                + "'" + ad.getDescription() + "')";
     }
 }
