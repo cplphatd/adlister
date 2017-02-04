@@ -1,4 +1,6 @@
-package Models;
+package Models.DataAccessLayer;
+
+import Models.Ad;
 
 import java.util.List;
 

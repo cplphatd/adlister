@@ -1,4 +1,4 @@
-package Models;
+package Models.DataAccessLayer;
 
 /**
  * <p>The <code>DaoFactory</code> class is used to statically call methods on classes that implement the
@@ -12,6 +12,7 @@ package Models;
  */
 public class DaoFactory {
     private static Ads adsDao;
+    private static Users usersDao;
 
     /**
      * <p>This method can be called statically and since the object created implements the <code>Ads</code>
@@ -25,5 +26,12 @@ public class DaoFactory {
             adsDao = new MySQLAdsDao();
         }
         return adsDao;
+    }
+
+    public static Users getUsersDao () {
+        if (usersDao == null) {
+            usersDao = new MySQLUsersDao();
+        }
+        return usersDao;
     }
 }

@@ -1,5 +1,7 @@
-package Models;
+package Models.DataAccessLayer;
 
+import Models.Ad;
+import Models.Config;
 import com.mysql.cj.jdbc.Driver;
 
 import java.sql.*;
@@ -76,9 +78,10 @@ public class MySQLAdsDao implements Ads {
     }
 
     /**
+     *<p>This method searches through the database for an ad with the ID number that was passed in</p>
      *
      * @param idNumber a long value representing the ID of the ad being searched for
-     * @return
+     * @return List of <code>Ad</code> objects matching the ID number (should only be one ad)
      */
     @Override
     public List<Ad> searchAdsByID(Long idNumber) {
@@ -90,6 +93,12 @@ public class MySQLAdsDao implements Ads {
         }
     }
 
+    /**
+     * <p></p>
+     *
+     * @param title a string value representing the title of the ad being searched for
+     * @return
+     */
     @Override
     public List<Ad> searchAdsByTitle(String title) {
         try {
