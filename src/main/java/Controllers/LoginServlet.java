@@ -3,6 +3,7 @@ package Controllers;
 import Models.DataAccessLayer.DaoFactory;
 import Models.DataAccessLayer.Users;
 import Models.User;
+import org.mindrot.jbcrypt.BCrypt;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,14 +23,14 @@ public class LoginServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
+        String enteredUsername = request.getParameter("username");
+        String enteredPassword = request.getParameter("password");
 
         Users users = DaoFactory.getUsersDao();
-        User currentUser = users.findByUsername(username);
-        String currentPassword = currentUser.getPassword();
+        User currentUser = users.findByUsername(enteredUsername);
+        String databasePassword = currentUser.getPassword();
 
-        boolean validAttempt = currentPassword.equals(password);
+        boolean validAttempt = BCrypt.checkpw(enteredPassword, databasePassword);
 
         if (validAttempt) {
             request.getSession().setAttribute("user", currentUser);

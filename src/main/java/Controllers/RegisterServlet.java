@@ -3,6 +3,7 @@ package Controllers;
 import Models.DataAccessLayer.DaoFactory;
 import Models.DataAccessLayer.Users;
 import Models.User;
+import org.mindrot.jbcrypt.BCrypt;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,14 +23,20 @@ public class RegisterServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Users users = DaoFactory.getUsersDao();
+        int numberOfRounds = 12;
 
         if (!request.getParameter("username").isEmpty() & request.getParameter("email").contains("@") & request
                 .getParameter("email").contains(".") & !request.getParameter("password").isEmpty()) {
 
+            String hashPassword = BCrypt.hashpw(
+                    request.getParameter("password"),
+                    BCrypt.gensalt(numberOfRounds)
+            );
+
             User newUser = new User(
                     request.getParameter("username"),
                     request.getParameter("email"),
-                    request.getParameter("password")
+                    hashPassword
             );
 
             if (users.insert(newUser) != null) {
