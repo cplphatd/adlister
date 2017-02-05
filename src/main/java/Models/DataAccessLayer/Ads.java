@@ -38,4 +38,6 @@ public interface Ads {
      * @return a List of <code>Ad</code> objects with similar titles
      */
     List<Ad> searchAdsByTitle (String title);
+
+    List<Ad> searchAdsByUserID (Long userID);
 }

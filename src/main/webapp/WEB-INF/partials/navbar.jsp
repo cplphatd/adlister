@@ -18,6 +18,7 @@
                     <li><a href="/login">Login</a></li>
                 </c:when>
                 <c:otherwise>
+                    <li><a href="/profile">Profile</a></li>
                     <li><a href="/logout">Logout</a></li>
                 </c:otherwise>
             </c:choose>

@@ -130,14 +130,32 @@ public class MySQLAdsDao implements Ads {
         }
     }
 
+    @Override
+    public List<Ad> searchAdsByUserID(Long userID) {
+        String sql = "SELECT * FROM ads WHERE user_id = ?";
+
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setLong(1, userID);
+
+            ResultSet resultSet = statement.executeQuery();
+            return createAdsFromResults(resultSet);
+        } catch (SQLException e) {
+            throw new RuntimeException("Error @ searchAdsByUserID", e);
+        }
+    }
+
     private Ad extractAd(ResultSet resultSet) throws SQLException {
 
-        return new Ad(
+        Ad ad = new Ad(
                 resultSet.getLong("id"),
                 resultSet.getLong("user_id"),
                 resultSet.getString("title"),
                 resultSet.getString("description")
         );
+        ad.setUsername(getUsernameFromID(ad.getUserId()));
+
+        return ad;
     }
 
     private List<Ad> createAdsFromResults(ResultSet resultSet) throws SQLException {
@@ -148,4 +166,26 @@ public class MySQLAdsDao implements Ads {
         }
         return ads;
     }
-}
+
+    public String getUsernameFromID (long idNumber) {
+        String sql = "SELECT username " +
+                     "FROM users " +
+                     "JOIN ads ON users.id = ads.user_id " +
+                     "WHERE user_id = ?";
+
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setLong(1, idNumber);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            if(resultSet.next()) {
+                return resultSet.getString("username");
+            } else {
+                return null;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error @ getUsernameFromID.", e);
+        }
+    }
+ }
