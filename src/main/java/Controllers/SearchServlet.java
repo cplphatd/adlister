@@ -18,7 +18,7 @@ import java.util.List;
 public class SearchServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<Ad> ads;
-        if (request.getParameter("title").isEmpty()) {
+        if (!request.getParameter("id").isEmpty()) {
             Long idNumber = Long.parseLong(request.getParameter("id"));
 
             ads = DaoFactory.getAdsDao().searchAdsByID(idNumber);
