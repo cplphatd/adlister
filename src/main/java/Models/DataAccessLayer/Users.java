@@ -7,9 +7,12 @@ import Models.User;
  */
 public interface Users {
 
+    //Find a user by username
     User findByUsername(String username);
 
+    //Add a new user
     Long insert(User user);
 
+    //Find a user by ID number
     User findUserByIDNumber (long idNumber);
 }
