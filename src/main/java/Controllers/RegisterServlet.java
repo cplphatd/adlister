@@ -23,19 +23,29 @@ public class RegisterServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Users users = DaoFactory.getUsersDao();
+        String desiredUsername = request.getParameter("username");
+        String desiredEmail = request.getParameter("email");
+        String desiredPassword = request.getParameter("password");
         int numberOfRounds = 12;
 
-        if (!request.getParameter("username").isEmpty() & request.getParameter("email").contains("@") & request
-                .getParameter("email").contains(".") & !request.getParameter("password").isEmpty()) {
+        if (
+                desiredUsername != null
+                && desiredEmail != null
+                && desiredPassword != null
+                && !desiredUsername.isEmpty()
+                && desiredEmail.contains("@")
+                && desiredEmail.contains(".")
+                && !desiredPassword.isEmpty()
+            ) {
 
             String hashPassword = BCrypt.hashpw(
-                    request.getParameter("password"),
+                    desiredPassword,
                     BCrypt.gensalt(numberOfRounds)
             );
 
             User newUser = new User(
-                    request.getParameter("username"),
-                    request.getParameter("email"),
+                    desiredUsername,
+                    desiredEmail,
                     hashPassword
             );
 

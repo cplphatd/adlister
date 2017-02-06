@@ -153,6 +153,7 @@ public class MySQLAdsDao implements Ads {
                 resultSet.getString("title"),
                 resultSet.getString("description")
         );
+
         ad.setUsername(getUsernameFromID(ad.getUserId()));
 
         return ad;
@@ -167,7 +168,7 @@ public class MySQLAdsDao implements Ads {
         return ads;
     }
 
-    public String getUsernameFromID (long idNumber) {
+    private String getUsernameFromID (long idNumber) {
         String sql = "SELECT username " +
                      "FROM users " +
                      "JOIN ads ON users.id = ads.user_id " +
