@@ -1,5 +1,6 @@
 package Models;
 
+import Utilities.Password;
 import org.mindrot.jbcrypt.BCrypt;
 
 /**
@@ -57,6 +58,6 @@ public class User {
     }
 
     public void setPassword(String password) {
-        this.password = BCrypt.hashpw(password, BCrypt.gensalt(12));
+        this.password = Password.hashPassword(password);
     }
 }

@@ -3,6 +3,7 @@ package Controllers;
 import Models.DataAccessLayer.DaoFactory;
 import Models.DataAccessLayer.Users;
 import Models.User;
+import Utilities.Password;
 import org.mindrot.jbcrypt.BCrypt;
 
 import javax.servlet.ServletException;
@@ -30,7 +31,7 @@ public class LoginServlet extends HttpServlet {
         User currentUser = users.findByUsername(enteredUsername);
         String databasePassword = currentUser.getPassword();
 
-        boolean validAttempt = BCrypt.checkpw(enteredPassword, databasePassword);
+        boolean validAttempt = Password.checkPassword(enteredPassword, databasePassword);
 
         if (validAttempt) {
             request.getSession().setAttribute("user", currentUser);
