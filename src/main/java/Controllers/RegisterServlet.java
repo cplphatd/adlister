@@ -26,7 +26,6 @@ public class RegisterServlet extends HttpServlet {
         String desiredUsername = request.getParameter("username");
         String desiredEmail = request.getParameter("email");
         String desiredPassword = request.getParameter("password");
-        int numberOfRounds = 12;
 
         if (
                 desiredUsername != null
@@ -38,15 +37,10 @@ public class RegisterServlet extends HttpServlet {
                 && !desiredPassword.isEmpty()
             ) {
 
-            String hashPassword = BCrypt.hashpw(
-                    desiredPassword,
-                    BCrypt.gensalt(numberOfRounds)
-            );
-
             User newUser = new User(
                     desiredUsername,
                     desiredEmail,
-                    hashPassword
+                    desiredPassword
             );
 
             if (users.insert(newUser) != null) {

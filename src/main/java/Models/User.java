@@ -1,5 +1,7 @@
 package Models;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 /**
  * Created by David on 2/4/17.
  */
@@ -23,7 +25,7 @@ public class User {
     public User (String username, String email, String password) {
         this.username = username;
         this.email = email;
-        this.password = password;
+        setPassword(password);
     }
 
     public long getId() {
@@ -55,6 +57,6 @@ public class User {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.password = BCrypt.hashpw(password, BCrypt.gensalt(12));
     }
 }
