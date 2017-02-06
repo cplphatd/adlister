@@ -20,7 +20,7 @@
                     <div class="form-group">
                         <label for="id">ID #</label>
                         <input id="id" name="id" class="form-control" type="text">
-                        <label for="title">Title</label>
+                        <label for="title">Title/Description</label>
                         <input id="title" name="title" class="form-control" type="text">
                     </div>
                     <input type="submit" class="btn btn-block btn-primary">
