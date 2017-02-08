@@ -113,7 +113,7 @@ public class MySQLAdsDao implements Ads {
      * <p></p>
      *
      * @param query a string value representing the title of the ad being searched for
-     * @return
+     * @return List of <code>Ad</code> objects that match query
      */
     @Override
     public List<Ad> searchAdsByTitle(String query) {

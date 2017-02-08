@@ -17,7 +17,8 @@
                 <h2><c:out value="${ad.title}"></c:out></h2>
                 <p><c:out value="${ad.description}"></c:out></p>
                 <p>ID#: <c:out value="${ad.id}"></c:out></p>
-                <h5>Posted by: <c:out value="${ad.username}"></c:out></h5>
+                <a href="/update"><button class="btn btn-success">Update</button></a>
+                <a href="/delete"><button class="btn btn-danger">Delete</button></a>
             </div>
         </c:forEach>
     </div>
