@@ -1,0 +1,2 @@
+#Adlister
+Web application that is similar to Craigslist where users can create profiles, create ads, browse ads, and search for ads by title or description. MySQL was used to build the database and Java was used for the back-end logic to add the functionality of the features. The server setup was accomplished using Apache Tomcat.
